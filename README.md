@@ -3,3 +3,4 @@
 
 ### Участники: 
 1. Каримов Радмир (kar.radmir@gmail.com)
+2. Ахметов Чингиз (ahmetov.tchingiz@yandex.ru)
