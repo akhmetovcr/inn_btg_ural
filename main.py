@@ -79,6 +79,7 @@ if __name__ == "__main__":
         ni=ni, nj=nj,
         north=north, east=east, south=south, west=west
     )
+    cluster.randomize(0.1)
 
     x = np.linspace(east, west, ni + 1)
     y = np.linspace(north, south, nj + 1)
