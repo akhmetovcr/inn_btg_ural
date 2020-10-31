@@ -33,8 +33,7 @@ if __name__ == "__main__":
             # filter_node=filter_fat_node
         )
     )
-    # isolated_nodes = nx.isolates(fat_graph)
-    # fat_graph.remove_nodes_from(isolated_nodes)
+    fat_graph.remove_nodes_from(list(nx.isolates(fat_graph)))
 
     # fig2, ax2 = plt.subplots()
     ox.plot_graph(fat_graph)
