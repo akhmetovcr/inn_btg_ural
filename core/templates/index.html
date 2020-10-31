@@ -1,6 +1,6 @@
 {% extends "layouts/base.html" %}
 
-{% block title %} Dashboard {% endblock %} 
+{% block title %} Главная страница {% endblock %}
 
 <!-- Specific Page CSS goes HERE  -->
 {% block stylesheets %}{% endblock stylesheets %}
@@ -14,15 +14,15 @@
             <div class="card-icon">
               <i class="material-icons">content_copy</i>
             </div>
-            <p class="card-category">Used Space</p>
-            <h3 class="card-title">49/50
-              <small>GB</small>
+            <p class="card-category">Покрытие города</p>
+            <h3 class="card-title">64
+              <small>%</small>
             </h3>
           </div>
           <div class="card-footer">
             <div class="stats">
-              <i class="material-icons text-danger">warning</i>
-              <a href="#pablo">Get More Space...</a>
+              <i class="material-icons text-primary">check_circle_outline</i>
+              <a href="#pablo">Связанность транспортных зон на хорошем уровне</a>
             </div>
           </div>
         </div>
@@ -31,14 +31,30 @@
         <div class="card card-stats">
           <div class="card-header card-header-success card-header-icon">
             <div class="card-icon">
-              <i class="material-icons">store</i>
+              <i class="material-icons">map</i>
             </div>
-            <p class="card-category">Revenue</p>
-            <h3 class="card-title">$34,245</h3>
+            <p class="card-category">Текущая оценка велодорожек</p>
+            <h3 class="card-title">8,6/10</h3>
           </div>
           <div class="card-footer">
             <div class="stats">
-              <i class="material-icons">date_range</i> Last 24 Hours
+              <i class="material-icons">people</i>На основе обращений граждан
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="card card-stats">
+          <div class="card-header card-header-success card-header-icon">
+            <div class="card-icon">
+              <i class="material-icons">add_road</i>
+            </div>
+            <p class="card-category">Построено велодорожек</p>
+            <h3 class="card-title">4,6км</h3>
+          </div>
+          <div class="card-footer">
+            <div class="stats">
+              <i class="material-icons">date_range</i> За 3 месяца
             </div>
           </div>
         </div>
@@ -47,50 +63,44 @@
         <div class="card card-stats">
           <div class="card-header card-header-danger card-header-icon">
             <div class="card-icon">
-              <i class="material-icons">info_outline</i>
+              <i class="material-icons">mark_chat_unread</i>
             </div>
-            <p class="card-category">Fixed Issues</p>
-            <h3 class="card-title">75</h3>
+            <p class="card-category">Новых обращений граждан</p>
+            <h3 class="card-title">14</h3>
           </div>
           <div class="card-footer">
             <div class="stats">
-              <i class="material-icons">local_offer</i> Tracked from Github
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-3 col-md-6 col-sm-6">
-        <div class="card card-stats">
-          <div class="card-header card-header-info card-header-icon">
-            <div class="card-icon">
-              <i class="fa fa-twitter"></i>
-            </div>
-            <p class="card-category">Followers</p>
-            <h3 class="card-title">+245</h3>
-          </div>
-          <div class="card-footer">
-            <div class="stats">
-              <i class="material-icons">update</i> Just Updated
+              <i class="material-icons">local_offer</i> Анализ обращений и инцидентов
             </div>
           </div>
         </div>
       </div>
     </div>
     <div class="row">
+
+
       <div class="col-md-4">
         <div class="card card-chart">
           <div class="card-header card-header-success">
             <div class="ct-chart" id="dailySalesChart"></div>
           </div>
           <div class="card-body">
-            <h4 class="card-title">Daily Sales</h4>
+            <h4 class="card-title">План выполняемых работ</h4>
             <p class="card-category">
-              <span class="text-success"><i class="fa fa-long-arrow-up"></i> 55% </span> increase in today sales.</p>
+              <span class="text-success"><i class="fa fa-long-arrow-up"></i> 28% </span> увеличение за последний месяц </p>
           </div>
-          <div class="card-footer">
-            <div class="stats">
-              <i class="material-icons">access_time</i> updated 4 minutes ago
-            </div>
+<!--          <div class="card-footer">-->
+<!--            <div class="stats">-->
+<!--              <i class="material-icons">access_time</i> updated 4 minutes ago-->
+<!--            </div>-->
+<!--          </div>-->
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card" style="width: 25rem;">
+          <img class="card-img-top" src="static/assets/img/main_map.png" alt="Карта велодорожек">
+          <div class="card-body">
+            <p class="card-text">Открыть карту</p>
           </div>
         </div>
       </div>
@@ -100,29 +110,13 @@
             <div class="ct-chart" id="websiteViewsChart"></div>
           </div>
           <div class="card-body">
-            <h4 class="card-title">Email Subscriptions</h4>
-            <p class="card-category">Last Campaign Performance</p>
+            <h4 class="card-title">Обращения граждан</h4>
+            <p class="card-category">Обращения по дням</p>
           </div>
           <div class="card-footer">
-            <div class="stats">
-              <i class="material-icons">access_time</i> campaign sent 2 days ago
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="card card-chart">
-          <div class="card-header card-header-danger">
-            <div class="ct-chart" id="completedTasksChart"></div>
-          </div>
-          <div class="card-body">
-            <h4 class="card-title">Completed Tasks</h4>
-            <p class="card-category">Last Campaign Performance</p>
-          </div>
-          <div class="card-footer">
-            <div class="stats">
-              <i class="material-icons">access_time</i> campaign sent 2 days ago
-            </div>
+<!--            <div class="stats">-->
+<!--              <i class="material-icons">access_time</i> campaign sent 2 days ago-->
+<!--            </div>-->
           </div>
         </div>
       </div>
@@ -133,23 +127,17 @@
           <div class="card-header card-header-tabs card-header-primary">
             <div class="nav-tabs-navigation">
               <div class="nav-tabs-wrapper">
-                <span class="nav-tabs-title">Tasks:</span>
+                <span class="nav-tabs-title">Мои работы:</span>
                 <ul class="nav nav-tabs" data-tabs="tabs">
                   <li class="nav-item">
-                    <a class="nav-link active" href="#profile" data-toggle="tab">
-                      <i class="material-icons">bug_report</i> Bugs
+                    <a class="nav-link active" href="#plan" data-toggle="tab">
+                      <i class="material-icons">library_add</i> Планируемые
                       <div class="ripple-container"></div>
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="#messages" data-toggle="tab">
-                      <i class="material-icons">code</i> Website
-                      <div class="ripple-container"></div>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="#settings" data-toggle="tab">
-                      <i class="material-icons">cloud</i> Server
+                    <a class="nav-link" href="#check" data-toggle="tab">
+                      <i class="material-icons">library_add_check</i>Завершенные
                       <div class="ripple-container"></div>
                     </a>
                   </li>
@@ -159,21 +147,21 @@
           </div>
           <div class="card-body">
             <div class="tab-content">
-              <div class="tab-pane active" id="profile">
+              <div class="tab-pane active" id="plan">
                 <table class="table">
                   <tbody>
                     <tr>
                       <td>
                         <div class="form-check">
-                          <label class="form-check-label">
-                            <input class="form-check-input" type="checkbox" value="" checked>
-                            <span class="form-check-sign">
-                              <span class="check"></span>
-                            </span>
-                          </label>
+<!--                          <label class="form-check-label">-->
+<!--&lt;!&ndash;                            <input class="form-check-input" type="checkbox" value="">&ndash;&gt;-->
+<!--                            <span class="form-check-sign">-->
+<!--                              <span class="check"></span>-->
+<!--                            </span>-->
+<!--                          </label>-->
                         </div>
                       </td>
-                      <td>Sign contract for "What are conference organizers afraid of?"</td>
+                      <td>Веломашрут на участке от ул. Первомайской до ул. Северной </td>
                       <td class="td-actions text-right">
                         <button type="button" rel="tooltip" title="Edit Task" class="btn btn-primary btn-link btn-sm">
                           <i class="material-icons">edit</i>
@@ -186,15 +174,15 @@
                     <tr>
                       <td>
                         <div class="form-check">
-                          <label class="form-check-label">
-                            <input class="form-check-input" type="checkbox" value="">
-                            <span class="form-check-sign">
-                              <span class="check"></span>
-                            </span>
-                          </label>
+<!--                          <label class="form-check-label">-->
+<!--&lt;!&ndash;                            <input class="form-check-input" type="checkbox" value="">&ndash;&gt;-->
+<!--                            <span class="form-check-sign">-->
+<!--                              <span class="check"></span>-->
+<!--                            </span>-->
+<!--                          </label>-->
                         </div>
                       </td>
-                      <td>Lines From Great Russian Literature? Or E-mails From My Boss?</td>
+                      <td>Рассмотреть на объекте обращение гражданина</td>
                       <td class="td-actions text-right">
                         <button type="button" rel="tooltip" title="Edit Task" class="btn btn-primary btn-link btn-sm">
                           <i class="material-icons">edit</i>
@@ -206,38 +194,17 @@
                     </tr>
                     <tr>
                       <td>
-                        <div class="form-check">
-                          <label class="form-check-label">
-                            <input class="form-check-input" type="checkbox" value="">
-                            <span class="form-check-sign">
-                              <span class="check"></span>
+<!--                        <div class="form-check">-->
+<!--                          <label class="form-check-label">-->
+<!--&lt;!&ndash;                            <input class="form-check-input" type="checkbox" value="" checked>&ndash;&gt;-->
+<!--                            <span class="form-check-sign">-->
+<!--                              <span class="check"></span>-->
                             </span>
                           </label>
                         </div>
                       </td>
-                      <td>Flooded: One year later, assessing what was lost and what was found when a ravaging rain swept through metro Detroit
+                      <td>Зарегистрировать в системе реконструкцию пешеходного перехода
                       </td>
-                      <td class="td-actions text-right">
-                        <button type="button" rel="tooltip" title="Edit Task" class="btn btn-primary btn-link btn-sm">
-                          <i class="material-icons">edit</i>
-                        </button>
-                        <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-link btn-sm">
-                          <i class="material-icons">close</i>
-                        </button>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <div class="form-check">
-                          <label class="form-check-label">
-                            <input class="form-check-input" type="checkbox" value="" checked>
-                            <span class="form-check-sign">
-                              <span class="check"></span>
-                            </span>
-                          </label>
-                        </div>
-                      </td>
-                      <td>Create 4 Invisible User Experiences you Never Knew About</td>
                       <td class="td-actions text-right">
                         <button type="button" rel="tooltip" title="Edit Task" class="btn btn-primary btn-link btn-sm">
                           <i class="material-icons">edit</i>
@@ -250,7 +217,7 @@
                   </tbody>
                 </table>
               </div>
-              <div class="tab-pane" id="messages">
+              <div class="tab-pane" id="check">
                 <table class="table">
                   <tbody>
                     <tr>
@@ -264,7 +231,7 @@
                           </label>
                         </div>
                       </td>
-                      <td>Flooded: One year later, assessing what was lost and what was found when a ravaging rain swept through metro Detroit
+                      <td>Завершение установки велосипедного светоформа на ул. Республики
                       </td>
                       <td class="td-actions text-right">
                         <button type="button" rel="tooltip" title="Edit Task" class="btn btn-primary btn-link btn-sm">
@@ -286,77 +253,7 @@
                           </label>
                         </div>
                       </td>
-                      <td>Sign contract for "What are conference organizers afraid of?"</td>
-                      <td class="td-actions text-right">
-                        <button type="button" rel="tooltip" title="Edit Task" class="btn btn-primary btn-link btn-sm">
-                          <i class="material-icons">edit</i>
-                        </button>
-                        <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-link btn-sm">
-                          <i class="material-icons">close</i>
-                        </button>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              <div class="tab-pane" id="settings">
-                <table class="table">
-                  <tbody>
-                    <tr>
-                      <td>
-                        <div class="form-check">
-                          <label class="form-check-label">
-                            <input class="form-check-input" type="checkbox" value="">
-                            <span class="form-check-sign">
-                              <span class="check"></span>
-                            </span>
-                          </label>
-                        </div>
-                      </td>
-                      <td>Lines From Great Russian Literature? Or E-mails From My Boss?</td>
-                      <td class="td-actions text-right">
-                        <button type="button" rel="tooltip" title="Edit Task" class="btn btn-primary btn-link btn-sm">
-                          <i class="material-icons">edit</i>
-                        </button>
-                        <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-link btn-sm">
-                          <i class="material-icons">close</i>
-                        </button>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <div class="form-check">
-                          <label class="form-check-label">
-                            <input class="form-check-input" type="checkbox" value="" checked>
-                            <span class="form-check-sign">
-                              <span class="check"></span>
-                            </span>
-                          </label>
-                        </div>
-                      </td>
-                      <td>Flooded: One year later, assessing what was lost and what was found when a ravaging rain swept through metro Detroit
-                      </td>
-                      <td class="td-actions text-right">
-                        <button type="button" rel="tooltip" title="Edit Task" class="btn btn-primary btn-link btn-sm">
-                          <i class="material-icons">edit</i>
-                        </button>
-                        <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-link btn-sm">
-                          <i class="material-icons">close</i>
-                        </button>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <div class="form-check">
-                          <label class="form-check-label">
-                            <input class="form-check-input" type="checkbox" value="" checked>
-                            <span class="form-check-sign">
-                              <span class="check"></span>
-                            </span>
-                          </label>
-                        </div>
-                      </td>
-                      <td>Sign contract for "What are conference organizers afraid of?"</td>
+                      <td>Загрузить в систему обновленные данные о перемещениях людей</td>
                       <td class="td-actions text-right">
                         <button type="button" rel="tooltip" title="Edit Task" class="btn btn-primary btn-link btn-sm">
                           <i class="material-icons">edit</i>
@@ -376,41 +273,41 @@
       <div class="col-lg-6 col-md-12">
         <div class="card">
           <div class="card-header card-header-warning">
-            <h4 class="card-title">Employees Stats</h4>
-            <p class="card-category">New employees on 15th September, 2016</p>
+            <h4 class="card-title">Обращения граждан</h4>
+            <p class="card-category">Новые обращения с 30-го сентября 2020 г.</p>
           </div>
           <div class="card-body table-responsive">
             <table class="table table-hover">
               <thead class="text-warning">
-                <th>ID</th>
-                <th>Name</th>
-                <th>Salary</th>
-                <th>Country</th>
+                <th>№</th>
+                <th>Имя</th>
+                <th>Тип обращения</th>
+                <th>Местоположение</th>
               </thead>
               <tbody>
                 <tr>
                   <td>1</td>
-                  <td>Dakota Rice</td>
-                  <td>$36,738</td>
-                  <td>Niger</td>
+                  <td>Каримов Радмир</td>
+                  <td>08.10.2020</td>
+                  <td>ул. Ленина, д.49</td>
                 </tr>
                 <tr>
                   <td>2</td>
-                  <td>Minerva Hooper</td>
-                  <td>$23,789</td>
-                  <td>Curaçao</td>
+                  <td>Рыжиков Владимир</td>
+                  <td>25.10.2020</td>
+                  <td>ул. Осипенко, д.13</td>
                 </tr>
                 <tr>
                   <td>3</td>
-                  <td>Sage Rodriguez</td>
-                  <td>$56,142</td>
-                  <td>Netherlands</td>
+                  <td>Ахметов Чингиз</td>
+                  <td>29.10.2020</td>
+                  <td>---</td>
                 </tr>
                 <tr>
                   <td>4</td>
-                  <td>Philip Chaney</td>
-                  <td>$38,735</td>
-                  <td>Korea, South</td>
+                  <td>Мусин Мурад</td>
+                  <td>31.10.2020</td>
+                  <td>ул. Запольная</td>
                 </tr>
               </tbody>
             </table>
