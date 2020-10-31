@@ -1,0 +1,142 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} UI Appeals {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+        <div class="row">
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-header card-header-primary">
+                  <h4 class="card-title ">Обращения</h4>
+                  <p class="card-category">Сообщения граждан города Тюмени</p>
+                </div>
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table class="table">
+                      <thead class=" text-primary">
+                        <th>
+                          №
+                        </th>
+                        <th>
+                          Имя
+                        </th>
+                        <th>
+                          Дата
+                        </th>
+                        <th>
+                          Адрес
+                        </th>
+                        <th>
+                          Категория
+                        </th>
+                        <th>
+                          Статус
+                        </th>
+                      </thead>
+                      <tbody>
+                      <tr>
+                        <td>1</td>
+                        <td>Каримов Радмир</td>
+                        <td>08.10.2020</td>
+                        <td>ул. Ленина, д.49</td>
+                        <td>Жалоба</td>
+                        <td>Не просмотрено</td>
+                      </tr>
+                      <tr>
+                        <td>2</td>
+                        <td>Рыжиков Владимир</td>
+                        <td>25.10.2020</td>
+                        <td>ул. Осипенко, д.13</td>
+                        <td>Рекомендация</td>
+                        <td>Не просмотрено</td>
+                      </tr>
+                      <tr>
+                        <td>3</td>
+                        <td>Ахметов Чингиз</td>
+                        <td>29.10.2020</td>
+                        <td>---</td>
+                        <td>Благодарность</td>
+                        <td>Не просмотрено</td>
+                      </tr>
+                      <tr>
+                        <td>4</td>
+                        <td>Мусин Мурад</td>
+                        <td>31.10.2020</td>
+                        <td>ул. Запольная</td>
+                        <td>Рекомендация</td>
+                        <td>Не просмотрено</td>
+                      </tr>
+                    </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="card card-plain">
+                <div class="card-header card-header-primary">
+                  <h4 class="card-title mt-0"> Инциденты</h4>
+                  <p class="card-category"> Инциденты на дорогах города Тюмени</p>
+                </div>
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table class="table table-hover">
+                      <thead class="">
+                        <th>
+                          №
+                        </th>
+                        <th>
+                          Адрес
+                        </th>
+                        <th>
+                          Вид происшествия
+                        </th>
+                        <th>
+                          Дата
+                        </th>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>
+                            1
+                          </td>
+                          <td>
+                            ул. Дзержинского, д.36
+                          </td>
+                          <td>
+                            Авария с участием велосипедиста
+                          </td>
+                          <td>
+                            05.09.2020
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            2
+                          </td>
+                          <td>
+                            ул.Советская, д.37
+                          </td>
+                          <td>
+                            Разрушено асфальтное покрытие велосипедной дороги
+                          </td>
+                          <td>
+                            19.10.2020
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}
