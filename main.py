@@ -2,13 +2,12 @@ import osmnx as ox
 import numpy as np
 import networkx as nx
 import matplotlib.pyplot as plt
-from osmnx.plot import utils_graph
 import random
 
 
-def create_filtered_graph(graph, key, value):
+def create_filtered_graph(graph, key, values):
     def filter_fat_edge(n1, n2, n3):
-        return graph[n1][n2][n3].get(key, '') == value
+        return graph[n1][n2][n3].get(key, '') in values
 
     f_graph = nx.MultiDiGraph(
         nx.subgraph_view(
@@ -119,7 +118,11 @@ def main():
     region_total_graph = ox.graph_from_bbox(north=north, east=east, south=south, west=west, network_type='drive')
 
     # берем только основные дороги (упрощено)
-    fat_graph = create_filtered_graph(region_total_graph, 'highway', 'tertiary')
+    fat_graph = create_filtered_graph(
+        graph=region_total_graph,
+        key='highway',
+        values=('tertiary', 'pedestrian', 'residential', 'living_street', 'unclassified', 'secondary', 'primary')
+    )
 
     # кластеризуем карту
     # количество шагов по х и по у для кластеризации
