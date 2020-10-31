@@ -19,6 +19,10 @@
 
     `> python manage.py runserver`
 
+5. Открыть сайт 
+
+    `> http://127.0.0.1:8000/`
+    
 ### Участники: 
 1. Каримов Радмир (kar.radmir@gmail.com)
 2. Ахметов Чингиз (ahmetov.tchingiz@yandex.ru)

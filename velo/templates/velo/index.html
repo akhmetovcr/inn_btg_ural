@@ -1,0 +1,33 @@
+﻿{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Велодорожки</title>
+		
+		<link rel="stylesheet" href="{% static 'css/ol.css' %}">
+		<link rel="stylesheet" href="{% static 'css/style.css' %}">
+		
+		<script src="{% static 'js/ol.js' %}"></script>
+		
+		
+		
+	</head>
+
+	<body>
+		
+		<div class = "top-border"></div>
+		
+		<h1 class = 'main-header'>Велодорожки Тюмени</h1>
+		
+		<button class = 'button'>Нарисовать имеющиеся велодорожки</button>
+		
+		<div class = "mapc" id="map" style="width: 800px; height: 400px;"></div>
+		
+		<script src={% static "js/script.js" %}></script>
+		
+		<footer class = 'footer'><p class = 'footer-p'>(C) INN BTG 2020</p></footer>
+		
+	</body>
+	
+</html>
