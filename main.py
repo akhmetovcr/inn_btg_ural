@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 from osmnx.plot import utils_graph
 import random
 
+
 def create_filtered_graph(graph, key, value):
     def filter_fat_edge(n1, n2, n3):
         return graph[n1][n2][n3].get(key, '') == value
@@ -129,6 +130,9 @@ class RegularCluster:
         self.east = east
         self.south = south
         self.west = west
+        # шаг
+        self.i_step = (east - west) / ni
+        self.j_step = (south - north) / nj
         # значения в ячейках
         self.values = None
 
@@ -141,6 +145,41 @@ class RegularCluster:
 
     def get_value(self, i, j):
         return self.values[i][j]
+
+    def is_intersect(self, i, j, x1, y1, x2, y2):
+        x_left = self.west + i * self.i_step
+        x_right = self.west + (i + 1) * self.i_step
+        y_top = self.north + j * self.j_step
+        y_bottom = self.north + (j + 1) * self.j_step
+
+        # проверка лежит ли первая точка в прямоугольнике
+        if x_left <= x1 <= x_right and y_bottom <= y1 <= y_top:
+            return True
+
+        # проверка лежит ли вторая точка в прямоугольнике
+        if x_left <= x2 <= x_right and y_bottom <= y2 <= y_top:
+            return True
+
+        # коэффициенты уравнения прямой входного сегмента
+        A_segment = y2 - y1
+        B_segment = x1 - x2
+        D_segment = x2 * y1 - x1 * y2
+        # коэффициенты уравнения прямой первой диагонали
+        A_diag1 = y_bottom - y_top
+        B_diag1 = x_left - x_right
+        D_diag1 = x_right * y_top - x_left * y_bottom
+        # коэффициенты уравнения прямой второй сегмента
+        A_diag2 = y_top - y_bottom
+        B_diag2 = x_left - x_right
+        D_diag2 = x_right * y_bottom - x_left * y_top
+        # если уравнение диагонали пересекается с уравнением отрезка
+        # и точки попарно лежат по разную сторону, то пересечение с диагональю есть
+        if (A_segment * x_left + B_segment * y_top + D_segment) * (A_segment * x_right + B_segment * y_bottom + D_segment) < 0 and (A_diag1 * x1 + B_diag1 * y1 + D_diag1) * (A_diag1 * x2 + B_diag1 * y2 + D_diag1) < 0:
+            return True
+        if (A_segment * x_left + B_segment * y_bottom + D_segment) * (A_segment * x_right + B_segment * y_top + D_segment) < 0 and (A_diag2 * x1 + B_diag2 * y1 + D_diag1) * (A_diag2 * x2 + B_diag2 * y2 + D_diag2) < 0:
+            return True
+
+        return False
 
 
 if __name__ == "__main__":
