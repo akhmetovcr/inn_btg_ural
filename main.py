@@ -1,6 +1,24 @@
+import osmnx as ox
+import networkx as nx
+
+
+def create_filtered_graph(graph, key, value):
+    def filter_fat_edge(n1, n2, n3):
+        return graph[n1][n2][n3].get(key, '') == value
+
+    f_graph = nx.MultiDiGraph(
+        nx.subgraph_view(
+            region_total_graph,
+            filter_edge=filter_fat_edge,
+        )
+    )
+    f_graph.remove_nodes_from(list(nx.isolates(f_graph)))
+
+    return f_graph
+
+
 if __name__ == "__main__":
-    import osmnx as ox
-    import networkx as nx
+
     # import matplotlib.pyplot as plt
 
     # прямоугольник описанный вокруг Тюмени
@@ -20,20 +38,7 @@ if __name__ == "__main__":
     #         return False
 
     # берем только основные дороги (упрощено)
-    def filter_fat_edge(n1, n2, n3):
-        return region_total_graph[n1][n2][n3].get('highway', '') == 'tertiary'
-
-    # def filter_fat_node(n1):
-    #     return True
-
-    fat_graph = nx.MultiDiGraph(
-        nx.subgraph_view(
-            region_total_graph,
-            filter_edge=filter_fat_edge,
-            # filter_node=filter_fat_node
-        )
-    )
-    fat_graph.remove_nodes_from(list(nx.isolates(fat_graph)))
+    fat_graph = create_filtered_graph(region_total_graph, 'highway', 'tertiary')
 
     # fig2, ax2 = plt.subplots()
     ox.plot_graph(fat_graph)
