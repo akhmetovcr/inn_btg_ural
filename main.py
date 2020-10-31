@@ -7,13 +7,14 @@ import random
 import json
 
 
-def export_to_json(graph: nx.MultiDiGraph, filename: str, color: str = '#000000'):
+def export_to_json(graph: nx.MultiDiGraph, filename: str, color: str = '#000000') -> str:
     """
     Запись графа в json-файл
 
     :param graph: граф
     :param filename: название файла
     :param color: цвет линии
+    :return: JSON в виде строки
     """
     # Cписок линий графа
     features_list = []
@@ -46,6 +47,55 @@ def export_to_json(graph: nx.MultiDiGraph, filename: str, color: str = '#000000'
     features["features"] = features_list
     with open(filename, 'w') as f:
         json.dump(features, f)
+
+    return json.dumps(features)
+
+
+def export_clusters_to_json(cluster, xg: np.ndarray, yg: np.ndarray, filename: str) -> str:
+    """
+    Запись координат кластеров в json-файл
+
+    :param cluster: кластеры
+    :param xg: координаты x узлов кластеров
+    :param yg: координаты н узлов кластеров
+    :param filename: название файла
+    :return: JSON в виде строки
+    """
+    # Cписок линий
+    features_list = []
+    # Словарь данных
+    features = {
+        "type": "FeatureCollection",
+        "features": []
+    }
+
+    for i in range(xg.shape[1] - 1):
+        for j in range(xg.shape[0] - 1):
+            if cluster.get_value(i, j):
+                # Добавление в список линий графа
+                features_list.append(
+                    {
+                        "type": "Feature",
+                        "properties": {},
+                        "geometry": {
+                            "type": "Polygon",
+                            "coordinates": [
+                                [
+                                    [xg[i, j], yg[i, j]],
+                                    [xg[i + 1, j], yg[i + 1, j]],
+                                    [xg[i + 1, j + 1], yg[i + 1, j + 1]],
+                                    [xg[i, j + 1], yg[i, j + 1]],
+                                    [xg[i, j], yg[i, j]]
+                                ]
+                            ]
+                        }
+                    }
+                )
+    features["features"] = features_list
+    with open(filename, 'w') as f:
+        json.dump(features, f)
+
+    return json.dumps(features)
 
 
 def create_filtered_graph(graph, key, values):
@@ -176,10 +226,14 @@ def main():
         north=north, east=east, south=south, west=west
     )
     cluster.randomize(0.1)
+    x = np.linspace(west, east, ni + 1)
+    y = np.linspace(north, south, nj + 1)
+    yg, xg = np.meshgrid(y, x)
 
     # фильтруем граф по ненулевым ячейкам кластера
     intersect_graph = create_filtered_graph_by_cluster(graph=fat_graph, cluster=cluster)
 
+    '''
     # разбиваем на подграфы
     connected_graphs = [intersect_graph.subgraph(c).copy() for c in nx.attracting_components(intersect_graph)]
 
@@ -205,10 +259,6 @@ def main():
         if len(list(g.edges)) > 0:
             ox.plot_graph(g, axes[1][1], show=False, bbox=bbox)
 
-    x = np.linspace(west, east, ni + 1)
-    y = np.linspace(north, south, nj + 1)
-    yg, xg = np.meshgrid(y, x)
-
     for i in range(ni):
         for j in range(nj):
             if cluster.get_value(i, j):
@@ -224,10 +274,11 @@ def main():
                 )
 
     plt.show()
-
+    '''
     export_to_json(region_total_graph, 'region_total_graph')
     export_to_json(fat_graph, 'fat_graph')
     export_to_json(intersect_graph, 'intersect_graph')
+    export_clusters_to_json(cluster, xg, yg, 'cluster')
 
 
 if __name__ == "__main__":
