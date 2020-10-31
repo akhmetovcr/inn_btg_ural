@@ -24,13 +24,13 @@ def plot_graph(
     G,
     ax=None,
     figsize=(8, 8),
-    bgcolor="#111111",
-    node_color="w",
+    bgcolor="#666666",
+    node_color="#CCCCCC",
     node_size=15,
     node_alpha=None,
     node_edgecolor="none",
     node_zorder=1,
-    edge_color="#999999",
+    edge_color="#FFFFFF",
     edge_linewidth=1,
     edge_alpha=None
 ):
@@ -192,7 +192,8 @@ if __name__ == "__main__":
             if cluster.get_value(i, j):
                 ax.fill(
                     [xg[i, j], xg[i + 1, j], xg[i + 1, j + 1], xg[i, j + 1], xg[i, j]],
-                    [yg[i, j], yg[i + 1, j], yg[i + 1, j + 1], yg[i, j + 1], yg[i, j]]
+                    [yg[i, j], yg[i + 1, j], yg[i + 1, j + 1], yg[i, j + 1], yg[i, j]],
+                    '#0000FF77'
                 )
 
     plt.show()
