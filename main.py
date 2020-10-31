@@ -1,5 +1,6 @@
 import osmnx as ox
 import networkx as nx
+import numpy as np
 
 
 def create_filtered_graph(graph, key, value):
@@ -47,5 +48,14 @@ if __name__ == "__main__":
     # fig, ax = plt.subplots()
     # ax.add_collection(mpl_edges_collection)
     # plt.show()
+
+    # количество шагов по х и по у для кластеризации
+    n_step_x, n_step_y = 50, 50
+    # генерация значений 0 или 1 в кластерах
+    map_values = np.fromfunction(
+        np.vectorize(lambda i, j: int(i == j)),
+        (n_step_x, n_step_y),
+        dtype=np.int
+    )
 
     print("FINISH")
