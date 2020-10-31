@@ -1,8 +1,51 @@
 import osmnx as ox
 import numpy as np
 import networkx as nx
+from osmnx import utils_graph
 import matplotlib.pyplot as plt
 import random
+import json
+
+
+def export_to_json(graph: nx.MultiDiGraph, filename: str, color: str = '#000000'):
+    """
+    Запись графа в json-файл
+
+    :param graph: граф
+    :param filename: название файла
+    :param color: цвет линии
+    """
+    # Cписок линий графа
+    features_list = []
+    # Словарь данных графа
+    features = {
+        "type": "FeatureCollection",
+        "features": []
+    }
+    # Рёбра графа
+    gdf_edges = utils_graph.graph_to_gdfs(graph, nodes=False)["geometry"]
+
+    for i, edge in enumerate(gdf_edges):
+        # Координаты ребра
+        xx, yy = edge.coords.xy
+        # Составление списка списков
+        coords = [[x, y] for x, y in zip(xx, yy)]
+        # Добавление в список линий графа
+        features_list.append(
+            {
+                "type": "Feature",
+                "properties": {
+                    "density": color
+                },
+                "geometry": {
+                    "type": "LineString",
+                    "coordinates": coords
+                }
+            }
+        )
+    features["features"] = features_list
+    with open(filename, 'w') as f:
+        json.dump(features, f)
 
 
 def create_filtered_graph(graph, key, values):
@@ -181,6 +224,10 @@ def main():
                 )
 
     plt.show()
+
+    export_to_json(region_total_graph, 'region_total_graph')
+    export_to_json(fat_graph, 'fat_graph')
+    export_to_json(intersect_graph, 'intersect_graph')
 
 
 if __name__ == "__main__":
