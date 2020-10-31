@@ -37,7 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'velo'
+    'app',
+    'authentication',
+    'core',
+    'velo',
 ]
 
 MIDDLEWARE = [

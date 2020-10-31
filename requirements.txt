@@ -1,1 +1,13 @@
 Django~=3.1.2
+
+# material-dashboard
+asgiref
+autopep8
+pycodestyle
+pytz
+sqlparse
+Unipath
+dj-database-url
+python-decouple
+gunicorn
+whitenoise
