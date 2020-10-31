@@ -229,13 +229,14 @@ def main():
         north=north, east=east, south=south, west=west
     )
     cluster.randomize(0.1)
+    print(cluster.values)
 
     # фильтруем граф по ненулевым ячейкам кластера
     intersect_graph = create_filtered_graph_by_cluster(graph=region_total_graph, cluster=cluster)
 
     _, ax = plot_graph(intersect_graph)
 
-    x = np.linspace(east, west, ni + 1)
+    x = np.linspace(west, east, ni + 1)
     y = np.linspace(north, south, nj + 1)
     xg, yg = np.meshgrid(x, y)
 
