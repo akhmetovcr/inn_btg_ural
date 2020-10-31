@@ -137,6 +137,17 @@ def main():
     # фильтруем граф по ненулевым ячейкам кластера
     intersect_graph = create_filtered_graph_by_cluster(graph=fat_graph, cluster=cluster)
 
+    # разбиваем на подграфы
+    connected_graphs = [intersect_graph.subgraph(c).copy() for c in nx.attracting_components(intersect_graph)]
+
+    # соединяем островки с помощью Дийкстры
+    for g in connected_graphs:
+        nx.algorithms.multi_source_dijkstra(
+            G=fat_graph,
+            sources=intersect_graph.nodes,
+            weight='length'
+        )
+
     bgcolor = "#111111"
     bbox = (north, south, east, west)
     fig, axes = plt.subplots(2, 2, facecolor=bgcolor, frameon=False)
@@ -147,6 +158,9 @@ def main():
     ox.plot_graph(region_total_graph, axes[0][0], show=False, bbox=bbox)
     ox.plot_graph(fat_graph, axes[0][1], show=False, bbox=bbox)
     ox.plot_graph(intersect_graph, axes[1][0], show=False, bbox=bbox)
+    for g in connected_graphs:
+        if len(list(g.edges)) > 0:
+            ox.plot_graph(g, axes[1][1], show=False, bbox=bbox)
 
     x = np.linspace(west, east, ni + 1)
     y = np.linspace(north, south, nj + 1)
