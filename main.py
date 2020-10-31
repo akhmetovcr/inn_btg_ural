@@ -44,105 +44,6 @@ def create_filtered_graph_by_cluster(graph, cluster):
     return f_graph
 
 
-def plot_graph(
-    G,
-    ax=None,
-    figsize=(8, 8),
-    bgcolor="#666666",
-    node_color="#CCCCCC",
-    node_size=15,
-    node_alpha=None,
-    node_edgecolor="none",
-    node_zorder=1,
-    edge_color="#FFFFFF",
-    edge_linewidth=1,
-    edge_alpha=None
-):
-    """
-    Plot a graph.
-
-    Parameters
-    ----------
-    G : networkx.MultiDiGraph
-        input graph
-    ax : matplotlib axis
-        if not None, plot on this preexisting axis
-    figsize : tuple
-        if ax is None, create new figure with size (width, height)
-    bgcolor : string
-        background color of plot
-    node_color : string or list
-        color(s) of the nodes
-    node_size : int
-        size of the nodes: if 0, then skip plotting the nodes
-    node_alpha : float
-        opacity of the nodes, note: if you passed RGBA values to node_color,
-        set node_alpha=None to use the alpha channel in node_color
-    node_edgecolor : string
-        color of the nodes' markers' borders
-    node_zorder : int
-        zorder to plot nodes: edges are always 1, so set node_zorder=0 to plot
-        nodes below edges
-    edge_color : string or list
-        color(s) of the edges' lines
-    edge_linewidth : float
-        width of the edges' lines: if 0, then skip plotting the edges
-    edge_alpha : float
-        opacity of the edges, note: if you passed RGBA values to edge_color,
-        set edge_alpha=None to use the alpha channel in edge_color
-    show : bool
-        if True, call pyplot.show() to show the figure
-    close : bool
-        if True, call pyplot.close() to close the figure
-    save : bool
-        if True, save the figure to disk at filepath
-    filepath : string
-        if save is True, the path to the file. file format determined from
-        extension. if None, use settings.imgs_folder/image.png
-    dpi : int
-        if save is True, the resolution of saved file
-    bbox : tuple
-        bounding box as (north, south, east, west). if None, will calculate
-        from spatial extents of plotted geometries.
-
-    Returns
-    -------
-    fig, ax : tuple
-        matplotlib figure, axis
-    """
-    max_node_size = max(node_size) if hasattr(node_size, "__iter__") else node_size
-    max_edge_lw = max(edge_linewidth) if hasattr(edge_linewidth, "__iter__") else edge_linewidth
-    if max_node_size <= 0 and max_edge_lw <= 0:
-        raise ValueError("Either node_size or edge_linewidth must be > 0 to plot something.")
-
-    # create fig, ax as needed
-    if ax is None:
-        fig, ax = plt.subplots(figsize=figsize, facecolor=bgcolor, frameon=False)
-        ax.set_facecolor(bgcolor)
-    else:
-        fig = ax.figure
-
-    if max_edge_lw > 0:
-        # plot the edges' geometries
-        gdf_edges = utils_graph.graph_to_gdfs(G, nodes=False)["geometry"]
-        ax = gdf_edges.plot(ax=ax, color=edge_color, lw=edge_linewidth, alpha=edge_alpha, zorder=1)
-
-    if max_node_size > 0:
-        # scatter plot the nodes' x/y coordinates
-        gdf_nodes = utils_graph.graph_to_gdfs(G, edges=False, node_geometry=False)[["x", "y"]]
-        ax.scatter(
-            x=gdf_nodes["x"],
-            y=gdf_nodes["y"],
-            s=node_size,
-            c=node_color,
-            alpha=node_alpha,
-            edgecolor=node_edgecolor,
-            zorder=node_zorder,
-        )
-
-    return fig, ax
-
-
 class RegularCluster:
     def __init__(self, ni, nj, north, east, south, west):
         # количество ячеек
@@ -217,7 +118,6 @@ def main():
     # полный граф Тюмени
     region_total_graph = ox.graph_from_bbox(north=north, east=east, south=south, west=west, network_type='drive')
 
-
     # берем только основные дороги (упрощено)
     fat_graph = create_filtered_graph(region_total_graph, 'highway', 'tertiary')
 
@@ -234,10 +134,16 @@ def main():
     # фильтруем граф по ненулевым ячейкам кластера
     intersect_graph = create_filtered_graph_by_cluster(graph=fat_graph, cluster=cluster)
 
-    fig, axes = plt.subplots(2, 2)
-    plot_graph(region_total_graph, axes[0][0])
-    plot_graph(fat_graph, axes[0][1])
-    plot_graph(intersect_graph, axes[1][0])
+    bgcolor = "#111111"
+    bbox = (north, south, east, west)
+    fig, axes = plt.subplots(2, 2, facecolor=bgcolor, frameon=False)
+    axes[0][0].set_facecolor(bgcolor)
+    axes[0][1].set_facecolor(bgcolor)
+    axes[1][0].set_facecolor(bgcolor)
+    axes[1][1].set_facecolor(bgcolor)
+    ox.plot_graph(region_total_graph, axes[0][0], show=False, bbox=bbox)
+    ox.plot_graph(fat_graph, axes[0][1], show=False, bbox=bbox)
+    ox.plot_graph(intersect_graph, axes[1][0], show=False, bbox=bbox)
 
     x = np.linspace(west, east, ni + 1)
     y = np.linspace(north, south, nj + 1)
