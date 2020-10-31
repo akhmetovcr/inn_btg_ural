@@ -3,5 +3,6 @@ from .import views
 
 
 urlpatterns = [
-    path('', views.post_index, name='post_index')
+    path('test', views.post_index, name='post_index'),
+    path('test/', views.post_index, name='post_index'),
 ]

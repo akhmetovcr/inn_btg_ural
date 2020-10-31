@@ -1,3 +1,4 @@
+//import {fromLonLat} from 'ol/proj';
 
 // инициализируем карту и указываем, в какой DOM-элемент она будет загружаться
 var map = new ol.Map({
@@ -12,10 +13,12 @@ var osmLayer = new ol.layer.Tile({
 map.addLayer(osmLayer);
 
 /*57.2662, 65.9653*/
+const schladming = [{{ velo_map.longitude }}, {{ velo_map.latitude }}]//[65.534328, 57.153033];  // !!! В обратном порядке
+const schladmingWebMercator = ol.proj.fromLonLat(schladming);
 
-// устанавливаем карте координаты центра и зум
+// устанавливаем карте координаты центра и зум Тюмени
 var view = new ol.View({
-  center: [ 4188426.7147939987, 7508764.236877314 ],
+  center: schladmingWebMercator,
   zoom: 12
 });
 map.setView(view);
