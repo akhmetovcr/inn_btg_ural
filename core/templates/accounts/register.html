@@ -12,7 +12,7 @@
       <div class="card">
         <div class="card-header card-header-primary">
           <h4 class="card-title">
-            Create Account
+            Создать аккаунт
           </h4>
         </div>
         <div class="card-body">
@@ -21,7 +21,7 @@
               {% if msg %}
                 <span class="text-danger">{{ msg }}</span>
               {% else %}
-                Add your credentials
+                Введите свои учётные записи
               {% endif %}  
           </h6>
           
@@ -30,7 +30,7 @@
           {% if success %}
 
             <p class="">
-              Please <a href={% url 'login' %} class="text-black text-small">authenticate</a> using the new account.
+              Пожалуйста <a href={% url 'login' %} class="text-black text-small">авторизуйтесь</a> используя новый аккаунт
             </p>  
 
           {% else %}
@@ -41,7 +41,7 @@
               <div class="row">
                 <div class="col-md-12">
                   <div class="form-group">
-                    <label class="bmd-label-floating">Username</label>
+                    <label class="bmd-label-floating">Имя пользователя</label>
                     {{ form.username }}
                   </div>
                 </div>
@@ -65,7 +65,7 @@
               <div class="row">
                 <div class="col-md-12">
                   <div class="form-group">
-                    <label class="bmd-label-floating">Password</label>
+                    <label class="bmd-label-floating">Пароль</label>
                     {{ form.password1 }}
                   </div>
                 </div>
@@ -77,7 +77,7 @@
               <div class="row">
                 <div class="col-md-12">
                   <div class="form-group">
-                    <label class="bmd-label-floating">Password Check</label>
+                    <label class="bmd-label-floating">Повторно пароль</label>
                     {{ form.password2 }}
                   </div>
                 </div>
@@ -86,11 +86,11 @@
 
               <br />
 
-              <button type="submit" name="register" class="btn btn-primary pull-left">Register</button>
+              <button type="submit" name="register" class="btn btn-primary pull-left">Зарегистрироваться</button>
 
               &nbsp; &nbsp; 
               <span class="pull-right">
-                Have an account? <a href="{% url 'login' %}" class="text-primary">Login</a>
+                Имеете аккаунт? <a href="{% url 'login' %}" class="text-primary">Войдите</a>
               </span>
 
               <div class="clearfix"></div>

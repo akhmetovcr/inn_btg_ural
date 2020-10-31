@@ -11,27 +11,27 @@
             <div class="col-md-8">
               <div class="card">
                 <div class="card-header card-header-primary">
-                  <h4 class="card-title">Edit Profile</h4>
-                  <p class="card-category">Complete your profile</p>
+                  <h4 class="card-title">Редактировать профиль</h4>
+                  <p class="card-category">Заполните свой профиль</p>
                 </div>
                 <div class="card-body">
                   <form>
                     <div class="row">
                       <div class="col-md-5">
                         <div class="form-group">
-                          <label class="bmd-label-floating">UserID (disabled)</label>
+                          <label class="bmd-label-floating">Идентификатор (недоступно)</label>
                           <input type="text" class="form-control" disabled value="{{ request.user.id }}">
                         </div>
                       </div>
                       <div class="col-md-3">
                         <div class="form-group">
-                          <label class="bmd-label-floating">Username</label>
+                          <label class="bmd-label-floating">Имя пользователя</label>
                           <input type="text" class="form-control" value="{{ request.user.username }}">
                         </div>
                       </div>
                       <div class="col-md-4">
                         <div class="form-group">
-                          <label class="bmd-label-floating">Email address</label>
+                          <label class="bmd-label-floating">Адрес электронной почты</label>
                           <input type="email" class="form-control" value="{{ request.user.email }}">
                         </div>
                       </div>
@@ -39,13 +39,13 @@
                     <div class="row">
                       <div class="col-md-6">
                         <div class="form-group">
-                          <label class="bmd-label-floating">Fist Name</label>
+                          <label class="bmd-label-floating">Фамилия</label>
                           <input type="text" class="form-control">
                         </div>
                       </div>
                       <div class="col-md-6">
                         <div class="form-group">
-                          <label class="bmd-label-floating">Last Name</label>
+                          <label class="bmd-label-floating">Имя</label>
                           <input type="text" class="form-control">
                         </div>
                       </div>
@@ -53,7 +53,7 @@
                     <div class="row">
                       <div class="col-md-12">
                         <div class="form-group">
-                          <label class="bmd-label-floating">Adress</label>
+                          <label class="bmd-label-floating">Управление</label>
                           <input type="text" class="form-control">
                         </div>
                       </div>
@@ -61,58 +61,33 @@
                     <div class="row">
                       <div class="col-md-4">
                         <div class="form-group">
-                          <label class="bmd-label-floating">City</label>
+                          <label class="bmd-label-floating">Отдел</label>
                           <input type="text" class="form-control">
                         </div>
                       </div>
                       <div class="col-md-4">
                         <div class="form-group">
-                          <label class="bmd-label-floating">Country</label>
+                          <label class="bmd-label-floating">Номер телефона</label>
                           <input type="text" class="form-control">
                         </div>
                       </div>
                       <div class="col-md-4">
-                        <div class="form-group">
-                          <label class="bmd-label-floating">Postal Code</label>
-                          <input type="text" class="form-control">
-                        </div>
                       </div>
                     </div>
                     <div class="row">
                       <div class="col-md-12">
                         <div class="form-group">
-                          <label>About Me</label>
+                          <label>Обо мне</label>
                           <div class="form-group">
-                            <label class="bmd-label-floating"> Lamborghini Mercy, Your chick she so thirsty, I'm in that two seat Lambo.</label>
+<!--                            <label class="bmd-label-floating"> Lamborghini Mercy, Your chick she so thirsty, I'm in that two seat Lambo.</label>-->
                             <textarea class="form-control" rows="5"></textarea>
                           </div>
                         </div>
                       </div>
                     </div>
-                    <button type="submit" class="btn btn-primary pull-right">Update Profile</button>
+                    <button type="submit" class="btn btn-primary pull-right">Сохранить профиль</button>
                     <div class="clearfix"></div>
                   </form>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="card card-profile">
-                <div class="card-avatar">
-                  <a href="#pablo">
-                    <img class="img" src="/static/assets/img/faces/marc.jpg" />
-                  </a>
-                </div>
-                <div class="card-body">
-                  <h6 class="card-category text-gray">
-                    {{ request.user.username }}
-                  </h6>
-                  <h4 class="card-title">
-                    {{ request.suser.email }}
-                  </h4>
-                  <p class="card-description">
-                    Don't be scared of the truth because we need to restart the human foundation in truth And I love you like Kanye loves Kanye I love Rick Owens’ bed design but the back is...
-                  </p>
-                  <a href="#pablo" class="btn btn-primary btn-round">Follow</a>
                 </div>
               </div>
             </div>
