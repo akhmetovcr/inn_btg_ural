@@ -29,8 +29,8 @@ def create_filtered_graph_by_cluster(graph, cluster):
         xy = graph[n1][n2][n3]['geometry'].xy
         x1 = xy[0][0]
         y1 = xy[1][0]
-        x2 = xy[0][1]
-        y2 = xy[1][1]
+        x2 = xy[0][-1]
+        y2 = xy[1][-1]
         return cluster.is_intersect_with_any_non_zero(x1=x1, y1=y1, x2=x2, y2=y2)
 
     f_graph = nx.MultiDiGraph(
@@ -217,6 +217,7 @@ def main():
     # полный граф Тюмени
     region_total_graph = ox.graph_from_bbox(north=north, east=east, south=south, west=west, network_type='drive')
 
+
     # берем только основные дороги (упрощено)
     fat_graph = create_filtered_graph(region_total_graph, 'highway', 'tertiary')
 
@@ -229,12 +230,14 @@ def main():
         north=north, east=east, south=south, west=west
     )
     cluster.randomize(0.1)
-    print(cluster.values)
 
     # фильтруем граф по ненулевым ячейкам кластера
-    intersect_graph = create_filtered_graph_by_cluster(graph=region_total_graph, cluster=cluster)
+    intersect_graph = create_filtered_graph_by_cluster(graph=fat_graph, cluster=cluster)
 
-    _, ax = plot_graph(intersect_graph)
+    fig, axes = plt.subplots(2, 2)
+    plot_graph(region_total_graph, axes[0][0])
+    plot_graph(fat_graph, axes[0][1])
+    plot_graph(intersect_graph, axes[1][0])
 
     x = np.linspace(west, east, ni + 1)
     y = np.linspace(north, south, nj + 1)
@@ -243,7 +246,12 @@ def main():
     for i in range(ni):
         for j in range(nj):
             if cluster.get_value(i, j):
-                ax.fill(
+                axes[0][1].fill(
+                    [xg[i, j], xg[i + 1, j], xg[i + 1, j + 1], xg[i, j + 1], xg[i, j]],
+                    [yg[i, j], yg[i + 1, j], yg[i + 1, j + 1], yg[i, j + 1], yg[i, j]],
+                    '#0000FF77'
+                )
+                axes[1][0].fill(
                     [xg[i, j], xg[i + 1, j], xg[i + 1, j + 1], xg[i, j + 1], xg[i, j]],
                     [yg[i, j], yg[i + 1, j], yg[i + 1, j + 1], yg[i, j + 1], yg[i, j]],
                     '#0000FF77'
