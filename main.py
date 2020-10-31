@@ -1,9 +1,9 @@
 import osmnx as ox
-import networkx as nx
 import numpy as np
-import random
+import networkx as nx
 import matplotlib.pyplot as plt
-
+from osmnx.plot import utils_graph
+import random
 
 def create_filtered_graph(graph, key, value):
     def filter_fat_edge(n1, n2, n3):
@@ -18,6 +18,105 @@ def create_filtered_graph(graph, key, value):
     f_graph.remove_nodes_from(list(nx.isolates(f_graph)))
 
     return f_graph
+
+
+def plot_graph(
+    G,
+    ax=None,
+    figsize=(8, 8),
+    bgcolor="#111111",
+    node_color="w",
+    node_size=15,
+    node_alpha=None,
+    node_edgecolor="none",
+    node_zorder=1,
+    edge_color="#999999",
+    edge_linewidth=1,
+    edge_alpha=None
+):
+    """
+    Plot a graph.
+
+    Parameters
+    ----------
+    G : networkx.MultiDiGraph
+        input graph
+    ax : matplotlib axis
+        if not None, plot on this preexisting axis
+    figsize : tuple
+        if ax is None, create new figure with size (width, height)
+    bgcolor : string
+        background color of plot
+    node_color : string or list
+        color(s) of the nodes
+    node_size : int
+        size of the nodes: if 0, then skip plotting the nodes
+    node_alpha : float
+        opacity of the nodes, note: if you passed RGBA values to node_color,
+        set node_alpha=None to use the alpha channel in node_color
+    node_edgecolor : string
+        color of the nodes' markers' borders
+    node_zorder : int
+        zorder to plot nodes: edges are always 1, so set node_zorder=0 to plot
+        nodes below edges
+    edge_color : string or list
+        color(s) of the edges' lines
+    edge_linewidth : float
+        width of the edges' lines: if 0, then skip plotting the edges
+    edge_alpha : float
+        opacity of the edges, note: if you passed RGBA values to edge_color,
+        set edge_alpha=None to use the alpha channel in edge_color
+    show : bool
+        if True, call pyplot.show() to show the figure
+    close : bool
+        if True, call pyplot.close() to close the figure
+    save : bool
+        if True, save the figure to disk at filepath
+    filepath : string
+        if save is True, the path to the file. file format determined from
+        extension. if None, use settings.imgs_folder/image.png
+    dpi : int
+        if save is True, the resolution of saved file
+    bbox : tuple
+        bounding box as (north, south, east, west). if None, will calculate
+        from spatial extents of plotted geometries.
+
+    Returns
+    -------
+    fig, ax : tuple
+        matplotlib figure, axis
+    """
+    max_node_size = max(node_size) if hasattr(node_size, "__iter__") else node_size
+    max_edge_lw = max(edge_linewidth) if hasattr(edge_linewidth, "__iter__") else edge_linewidth
+    if max_node_size <= 0 and max_edge_lw <= 0:
+        raise ValueError("Either node_size or edge_linewidth must be > 0 to plot something.")
+
+    # create fig, ax as needed
+    if ax is None:
+        fig, ax = plt.subplots(figsize=figsize, facecolor=bgcolor, frameon=False)
+        ax.set_facecolor(bgcolor)
+    else:
+        fig = ax.figure
+
+    if max_edge_lw > 0:
+        # plot the edges' geometries
+        gdf_edges = utils_graph.graph_to_gdfs(G, nodes=False)["geometry"]
+        ax = gdf_edges.plot(ax=ax, color=edge_color, lw=edge_linewidth, alpha=edge_alpha, zorder=1)
+
+    if max_node_size > 0:
+        # scatter plot the nodes' x/y coordinates
+        gdf_nodes = utils_graph.graph_to_gdfs(G, edges=False, node_geometry=False)[["x", "y"]]
+        ax.scatter(
+            x=gdf_nodes["x"],
+            y=gdf_nodes["y"],
+            s=node_size,
+            c=node_color,
+            alpha=node_alpha,
+            edgecolor=node_edgecolor,
+            zorder=node_zorder,
+        )
+
+    return fig, ax
 
 
 class RegularCluster:
@@ -65,7 +164,7 @@ if __name__ == "__main__":
     fat_graph = create_filtered_graph(region_total_graph, 'highway', 'tertiary')
 
     # fig2, ax2 = plt.subplots()
-    ox.plot_graph(fat_graph)
+    _, ax = plot_graph(fat_graph)
     # mpl_edges_collection = nx.draw_networkx_edges(fat_graph, pos=nx.spring_layout(fat_graph))
     # import matplotlib.pyplot as plt
     # fig, ax = plt.subplots()
@@ -85,11 +184,10 @@ if __name__ == "__main__":
     y = np.linspace(north, south, nj + 1)
     xg, yg = np.meshgrid(x, y)
 
-    fig = plt.figure()
     for i in range(ni):
         for j in range(nj):
             if cluster.get_value(i, j):
-                plt.fill([x[i], x[i + 1], x[i + 1], x[i], x[i]], [y[i], y[i], y[i + 1], y[i + 1], y[i]])
+                ax.fill([x[i], x[i + 1], x[i + 1], x[i], x[i]], [y[i], y[i], y[i + 1], y[i + 1], y[i]])
 
     plt.show()
     print("FINISH")
