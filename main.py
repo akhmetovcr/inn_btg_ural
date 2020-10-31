@@ -148,8 +148,11 @@ if __name__ == "__main__":
     north, east, south, west = 57.2662, 65.9653, 57.0346, 65.2066
     # полный граф Тюмени
     region_total_graph = ox.graph_from_bbox(north=north, east=east, south=south, west=west, network_type='drive')
+    # with open('TyumenFull.graph', 'rb') as f:
+    #     from pickle import load
+    #     region_total_graph = load(f)
     # fig1, ax1 = plt.subplots()
-    ox.plot_graph(region_total_graph)
+    # ox.plot_graph(region_total_graph)
 
     # # вариант не подходит, т.к. оказывается информации о ширине очень мало
     # def filter_fat_edge(n1, n2, n3):
@@ -187,7 +190,10 @@ if __name__ == "__main__":
     for i in range(ni):
         for j in range(nj):
             if cluster.get_value(i, j):
-                ax.fill([x[i], x[i + 1], x[i + 1], x[i], x[i]], [y[i], y[i], y[i + 1], y[i + 1], y[i]])
+                ax.fill(
+                    [xg[i, j], xg[i + 1, j], xg[i + 1, j + 1], xg[i, j + 1], xg[i, j]],
+                    [yg[i, j], yg[i + 1, j], yg[i + 1, j + 1], yg[i, j + 1], yg[i, j]]
+                )
 
     plt.show()
     print("FINISH")
