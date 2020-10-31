@@ -1,6 +1,8 @@
 import osmnx as ox
 import networkx as nx
 import numpy as np
+import random
+import matplotlib.pyplot as plt
 
 
 def create_filtered_graph(graph, key, value):
@@ -18,10 +20,31 @@ def create_filtered_graph(graph, key, value):
     return f_graph
 
 
+class RegularCluster:
+    def __init__(self, ni, nj, north, east, south, west):
+        # количество ячеек
+        self.ni = ni
+        self.nj = nj
+        # границы кластера
+        self.north = north
+        self.east = east
+        self.south = south
+        self.west = west
+        # значения в ячейках
+        self.values = None
+
+    def randomize(self, chance):
+        self.values = np.fromfunction(
+            np.vectorize(lambda i, j: int(random.random() < chance)),
+            (self.ni, self.nj),
+            dtype=np.int
+        )
+
+    def get_value(self, i, j):
+        return self.values[i][j]
+
+
 if __name__ == "__main__":
-
-    # import matplotlib.pyplot as plt
-
     # прямоугольник описанный вокруг Тюмени
     north, east, south, west = 57.2662, 65.9653, 57.0346, 65.2066
     # полный граф Тюмени
@@ -50,21 +73,21 @@ if __name__ == "__main__":
     # plt.show()
 
     # количество шагов по х и по у для кластеризации
-    n_step_x, n_step_y = 50, 50
+    ni, nj = 50, 50
     # генерация значений 0 или 1 в кластерах
-    map_values = np.fromfunction(
-        np.vectorize(lambda i, j: int(i == j)),
-        (n_step_x, n_step_y),
-        dtype=np.int
+    cluster = RegularCluster(
+        ni=ni, nj=nj,
+        north=north, east=east, south=south, west=west
     )
-    x = np.linspace(east, west, n_step_x + 1)
-    y = np.linspace(north, south, n_step_y + 1)
+
+    x = np.linspace(east, west, ni + 1)
+    y = np.linspace(north, south, nj + 1)
     xg, yg = np.meshgrid(x, y)
 
     fig = plt.figure()
-    for i in range(n_step_x):
-        for j in range(n_step_y):
-            if map_values[i, j]:
+    for i in range(ni):
+        for j in range(nj):
+            if cluster.get_value(i, j):
                 plt.fill([x[i], x[i + 1], x[i + 1], x[i], x[i]], [y[i], y[i], y[i + 1], y[i + 1], y[i]])
 
     plt.show()
