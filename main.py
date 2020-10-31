@@ -57,5 +57,15 @@ if __name__ == "__main__":
         (n_step_x, n_step_y),
         dtype=np.int
     )
+    x = np.linspace(east, west, n_step_x + 1)
+    y = np.linspace(north, south, n_step_y + 1)
+    xg, yg = np.meshgrid(x, y)
 
+    fig = plt.figure()
+    for i in range(n_step_x):
+        for j in range(n_step_y):
+            if map_values[i, j]:
+                plt.fill([x[i], x[i + 1], x[i + 1], x[i], x[i]], [y[i], y[i], y[i + 1], y[i + 1], y[i]])
+
+    plt.show()
     print("FINISH")
