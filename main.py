@@ -242,6 +242,8 @@ def main():
         for j in range(i + 1, len(connected_graphs)):
             c_graph_target = connected_graphs[j]
             try:
+                # вообще нужен мульти_сорс_мульти_таргет_дийкстра, а такого реализованного нет
+
                 # _, path = nx.algorithms.multi_source_dijkstra(
                 #     G=fat_graph,
                 #     # sources=c_graph_source.nodes,
