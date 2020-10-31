@@ -131,7 +131,6 @@ def create_filtered_graph_by_cluster(graph, cluster):
             filter_edge=filter_intersect_edge,
         )
     )
-    f_graph.remove_nodes_from(list(nx.isolates(f_graph)))
 
     return f_graph
 
@@ -226,24 +225,50 @@ def main():
         north=north, east=east, south=south, west=west
     )
     cluster.randomize(0.1)
-    x = np.linspace(west, east, ni + 1)
-    y = np.linspace(north, south, nj + 1)
-    yg, xg = np.meshgrid(y, x)
 
     # фильтруем граф по ненулевым ячейкам кластера
-    intersect_graph = create_filtered_graph_by_cluster(graph=fat_graph, cluster=cluster)
+    result_graph = create_filtered_graph_by_cluster(graph=fat_graph, cluster=cluster)
+    # очищаем от изолированных вершин
+    clear_intersect_graph = result_graph.copy()
+    clear_intersect_graph.remove_nodes_from(list(nx.isolates(clear_intersect_graph)))
 
-    '''
     # разбиваем на подграфы
-    connected_graphs = [intersect_graph.subgraph(c).copy() for c in nx.attracting_components(intersect_graph)]
+    connected_graphs = [clear_intersect_graph.subgraph(c).copy() for c in nx.attracting_components(clear_intersect_graph)]
 
     # соединяем островки с помощью Дийкстры
-    for g in connected_graphs:
-        nx.algorithms.multi_source_dijkstra(
-            G=fat_graph,
-            sources=intersect_graph.nodes,
-            weight='length'
-        )
+    for i in range(len(connected_graphs)):
+        c_graph_source = connected_graphs[i]
+        c_graph_source_node = list(c_graph_source.nodes)[0]
+        for j in range(i + 1, len(connected_graphs)):
+            c_graph_target = connected_graphs[j]
+            try:
+                # _, path = nx.algorithms.multi_source_dijkstra(
+                #     G=fat_graph,
+                #     # sources=c_graph_source.nodes,
+                #     sources={list(c_graph_source.nodes)[0]},
+                #     target=list(c_graph_target.nodes)[0],
+                #     weight='length'
+                # )
+
+                _, path = nx.algorithms.single_source_dijkstra(
+                    G=fat_graph,
+                    # sources=c_graph_source.nodes,
+                    # source=list(c_graph_source.nodes)[0],
+                    source=c_graph_source_node,
+                    target=list(c_graph_target.nodes)[0],
+                    weight='length'
+                )
+
+                # path = nx.algorithms.astar_path(
+                #     G=fat_graph,
+                #     source=list(c_graph_source.nodes)[0],
+                #     target=list(c_graph_target.nodes)[0],
+                # )
+
+                nx.add_path(G_to_add_to=result_graph, nodes_for_path=path)
+            except nx.exception.NetworkXNoPath as e:
+                pass
+    result_graph.remove_nodes_from(list(nx.isolates(result_graph)))
 
     bgcolor = "#111111"
     bbox = (north, south, east, west)
@@ -254,10 +279,13 @@ def main():
     axes[1][1].set_facecolor(bgcolor)
     ox.plot_graph(region_total_graph, axes[0][0], show=False, bbox=bbox)
     ox.plot_graph(fat_graph, axes[0][1], show=False, bbox=bbox)
-    ox.plot_graph(intersect_graph, axes[1][0], show=False, bbox=bbox)
-    for g in connected_graphs:
-        if len(list(g.edges)) > 0:
-            ox.plot_graph(g, axes[1][1], show=False, bbox=bbox)
+    ox.plot_graph(clear_intersect_graph, axes[1][0], show=False, bbox=bbox)
+    ox.plot_graph(result_graph, axes[1][1], show=False, bbox=bbox)
+    plt.subplots_adjust(left=0, bottom=0, right=1, top=1, wspace=0.01, hspace=0.01)
+
+    x = np.linspace(west, east, ni + 1)
+    y = np.linspace(north, south, nj + 1)
+    yg, xg = np.meshgrid(y, x)
 
     for i in range(ni):
         for j in range(nj):
@@ -272,12 +300,17 @@ def main():
                     [yg[i, j], yg[i + 1, j], yg[i + 1, j + 1], yg[i, j + 1], yg[i, j]],
                     '#0000FF77'
                 )
+                axes[1][1].fill(
+                    [xg[i, j], xg[i + 1, j], xg[i + 1, j + 1], xg[i, j + 1], xg[i, j]],
+                    [yg[i, j], yg[i + 1, j], yg[i + 1, j + 1], yg[i, j + 1], yg[i, j]],
+                    '#0000FF77'
+                )
 
     plt.show()
-    '''
-    export_to_json(region_total_graph, 'region_total_graph')
-    export_to_json(fat_graph, 'fat_graph')
-    export_to_json(intersect_graph, 'intersect_graph')
+
+    # export_to_json(region_total_graph, 'region_total_graph')
+    # export_to_json(fat_graph, 'fat_graph')
+    export_to_json(result_graph, 'intersect_graph')
     export_clusters_to_json(cluster, xg, yg, 'cluster')
 
 
