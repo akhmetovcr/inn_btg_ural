@@ -147,7 +147,7 @@ def main():
 
     x = np.linspace(west, east, ni + 1)
     y = np.linspace(north, south, nj + 1)
-    xg, yg = np.meshgrid(x, y)
+    yg, xg = np.meshgrid(y, x)
 
     for i in range(ni):
         for j in range(nj):
