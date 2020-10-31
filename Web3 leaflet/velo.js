@@ -3,7 +3,9 @@ var bike_road = {
   "features": [
     {
       "type": "Feature",
-      "properties": {},
+      "properties": {
+        "density": 2500
+		},
       "geometry": {
         "type": "LineString",
         "coordinates": [
@@ -48,7 +50,9 @@ var bike_road = {
     },
     {
       "type": "Feature",
-      "properties": {},
+       "properties": {
+        "density": 70
+		},
       "geometry": {
         "type": "LineString",
         "coordinates": [
@@ -81,7 +85,9 @@ var bike_road = {
     },
     {
       "type": "Feature",
-      "properties": {},
+       "properties": {
+        "density": 140
+		},
       "geometry": {
         "type": "LineString",
         "coordinates": [
