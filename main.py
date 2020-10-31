@@ -181,6 +181,12 @@ class RegularCluster:
 
         return False
 
+    def is_intersect_with_any_non_zero(self, x1, y1, x2, y2):
+        for (i, j), value in np.ndenumerate(self.values):
+            if value != 0 and self.is_intersect(i=i, j=j, x1=x1, x2=x2, y1=y1, y2=y2):
+                return True
+        return False
+
 
 if __name__ == "__main__":
     # прямоугольник описанный вокруг Тюмени
