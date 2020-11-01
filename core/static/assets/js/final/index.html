@@ -1,0 +1,198 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>Велодорожки</title>
+	<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5/leaflet.css" />
+	<script src="http://cdn.leafletjs.com/leaflet-0.5/leaflet.js"></script>
+	
+	<script src="current_roads.js" type="text/javascript"></script>
+	
+	<script src="geo_data1.js" type="text/javascript"></script>
+	<script src="geo_data2.js" type="text/javascript"></script>
+	<script src="geo_data3.js" type="text/javascript"></script>
+	<script src="geo_data4.js" type="text/javascript"></script>
+	<script src="geo_data5.js" type="text/javascript"></script>
+	<script src="geo_data6.js" type="text/javascript"></script>
+	<script src="geo_data7.js" type="text/javascript"></script>
+ 
+	<style>
+		#map {width: 1400px; height: 800px; }
+	</style>
+ 
+</head>
+
+
+<body>
+
+	<div id="map"></div>
+	
+	
+	<button class = 'button_c_add'>Показать имеющиеся велодорожки</button>
+	<button class = 'button_c_del'>Скрыть имеющиеся велодорожки</button>
+	
+	
+	<button class = 'button_p_add'>Сгенерировать планируемые велодорожки</button>
+	<button class = 'button_p_del'>Удалить планируемые велодорожки</button>
+	
+	<!--
+	<button class = 'button_zones'>Показать зонирование</button>
+	<button class = 'button_zones_del'>Скрыть зонирование</button>
+	
+	<button class = 'button_generate'>Сгенерировать данные</button>
+	-->
+	
+	<script type='text/javascript'>
+		
+		
+		var current_roads;
+		var current_roads_printed = false;
+		
+		var zones;
+		var plan_roads;
+		var plan_roads_printed = false;
+		
+		
+
+		
+		var button_c_add = document.querySelector('.button_c_add');		
+		var button_c_del = document.querySelector('.button_c_del');		
+		
+		var button_p_add = document.querySelector('.button_p_add');		
+		var button_p_del = document.querySelector('.button_p_del');		
+		
+		//var button_zones = document.querySelector('.button_zones');			
+		//var button_zones_del = document.querySelector('.button_zones_del');	
+		//var button_generate = document.querySelector('.button_generate');	
+		
+		
+		var geo_data;
+		var plan_roads_json;
+		var zones_json;
+		
+		
+		
+		
+		
+		
+		
+		// имеющиеся велодорожки
+		function buttonClick_c_add() {
+			
+			if (current_roads_printed == false) {
+				current_roads = L.geoJson(current_roads_json, {style: style_current}).addTo(map);
+				current_roads_printed = true;
+			}
+		}
+		function buttonClick_c_del() {
+			map.removeLayer(current_roads);
+			current_roads_printed = false;
+		}
+		
+		
+		
+		// планируемые велодорожки
+		function buttonClick_p_add() {
+			if (plan_roads_printed == false) {
+			
+				geo_data = Math.random() * 6;
+				console.log(geo_data);
+				
+				
+				if (geo_data < 1) {
+					plan_roads_json = plan_roads_json1;
+					zones_json = zones_json1;
+				} else if (geo_data < 2) {
+					plan_roads_json = plan_roads_json2;
+					zones_json = zones_json2;
+				} else if (geo_data < 3) {
+					plan_roads_json = plan_roads_json3;
+					zones_json = zones_json3;
+				} else if (geo_data < 4) {
+					plan_roads_json = plan_roads_json4;
+					zones_json = zones_json4;
+				} else if (geo_data < 5) {
+					plan_roads_json = plan_roads_json5;
+					zones_json = zones_json5;
+				} else if (geo_data < 6) {
+					plan_roads_json = plan_roads_json6;
+					zones_json = zones_json6;
+				} else {
+					plan_roads_json = plan_roads_json7;
+					zones_json = zones_json7;
+				};
+			
+			
+				plan_roads = L.geoJson(plan_roads_json, {style: style_plan}).addTo(map);
+				zones = L.geoJson(zones_json, {style: {color:'#2067f5', weight: 1}}).addTo(map);
+				plan_roads_printed = true;
+			}
+		}
+		function buttonClick_p_del() {
+			map.removeLayer(plan_roads);
+			map.removeLayer(zones);
+			plan_roads_printed = false;
+			
+		}
+		
+
+
+
+		button_c_add.addEventListener('click', buttonClick_c_add);
+		button_c_del.addEventListener('click', buttonClick_c_del);
+		
+		button_p_add.addEventListener('click', buttonClick_p_add);
+		button_p_del.addEventListener('click', buttonClick_p_del);
+		
+		//button_zones.addEventListener('click', buttonClick_zones);
+		//button_zones_del.addEventListener('click', buttonClick_zones_del);
+		//button_generate.addEventListener('click', buttonClick_generate);
+		
+		
+		/*
+		// работа с цветом
+		function getColor(d) {
+			return d > 1000 ? '#ff0f0f' :		// красный
+				   d > 500  ? '#d213f089' :		// фиолетовый
+				   d > 50   ? '#3215ed89' :		// синий
+							  '#0af71289';		// зеленый
+		}
+		*/
+		
+		
+		
+		function style_current(feature) {
+			return {
+				weight: 2,
+				opacity: 1,
+				color: 'Blue', //getColor(feature.properties.density),
+				fillOpacity: 1
+			};
+		}
+		
+		
+		
+		function style_plan(feature) {
+			return {
+				weight: 2,
+				opacity: 1,
+				color: 'Red', //getColor(feature.properties.density),
+				fillOpacity: 1
+			};
+		}
+
+
+		//Определяем карту, координаты центра и начальный масштаб
+		var map = L.map('map').setView([57.15, 65.56], 13);
+
+
+		//Добавляем на нашу карту слой OpenStreetMap
+		L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+		// показ масштаба
+		L.control.scale().addTo(map);
+
+	</script>
+
+</body>
+</html>

@@ -1,0 +1,122 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Plan map {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5/leaflet.css" />
+	<script src="http://cdn.leafletjs.com/leaflet-0.5/leaflet.js"></script>
+{% endblock stylesheets %}
+
+{% block content %}
+
+    <div class ="col">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">2. Выделение транспортных зон</h4>
+                <p class="card-category">
+                    Добавляем в граф дорог информацию о популярных районах велосипедистов <br>
+                    Учитываем текущий спрос людей, получаем информацию о значимых объектах города, жилых районах<br>
+                    Кластеризуем на зоны
+                </p>
+            </div>
+            <div class="row">
+                <div class="col-md-8">
+                    <div id="map"></div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-header card-header-primary">
+                            <h4 class="card-title ">Транспортные зоны</h4>
+                            <p class="card-category">Кластеризация</p>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead class=" text-primary">
+                                        <th>Название</th>
+                                    </thead>
+                                    <tbody>
+                                        <tr><td>Зона-1</td></tr>
+                                        <tr><td>Зона-2</td></tr>
+                                        <tr><td>Зона-3</td></tr>
+                                        <tr><td>Зона-4</td></tr>
+                                        <tr><td>Зона-5</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="card">
+
+                                <a class="nav-link" href="/ui-plan-maps-3.html">
+                                    <div class="btn btn-success" type="submit">
+                                        <h6 class="card-title" >Перейти к фильтрации графа дорог<br>
+                                            с учётом транспортных зон</h6>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+
+    <script src="/static/assets/js/final/zones-2.js" type="text/javascript"></script>
+    <script type='text/javascript'>
+
+
+		// работа с цветом
+		function getColor(d) {
+			return d > 1000 ? '#ff0f0f' :		// красный
+				   d > 500  ? '#d213f089' :		// фиолетовый
+				   d > 50   ? '#3215ed89' :		// синий
+							  '#0af71289';		// зеленый
+		}
+
+
+		function style(feature) {
+			return {
+				weight: 6,
+				//opacity: 1,
+				color: getColor(feature.properties.density),
+				//dashArray: '3',
+				//fillOpacity: 2
+			};
+		}
+
+
+		//Определяем карту, координаты центра и начальный масштаб
+		var map = L.map('map').setView([57.15, 65.56], 13);
+
+		//Добавляем на нашу карту слой OpenStreetMap
+		L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+
+		//var testLayer = L.geoJson(bike_road, {style: style}).addTo(map);
+
+
+		// показ масштаба
+		L.control.scale().addTo(map);
+
+        // Добавляем маркеры
+        var m = L.marker([57.14882038, 65.5781031 ]).addTo(map);
+        m.bindPopup("<b>Добавьте велодорожку!!</b>.").openPopup();
+        var m = L.marker([57.13079665, 65.55833919]).addTo(map);
+        m.bindPopup("<b>Не удобный спуск</b>.");
+
+
+        // Отображаем зоны
+        var z = L.geoJson(zones).addTo(map);
+        var m = L.geoJson(markers).addTo(map);
+
+	</script>
+
+  
+{% endblock javascripts %}
