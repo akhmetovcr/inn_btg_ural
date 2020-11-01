@@ -157,6 +157,13 @@ class RegularCluster:
             (self.ni, self.nj),
             dtype=np.int
         )
+        # Для генерации областей ближе к центру города
+        # self.values[:] = 0
+        # self.values[6:-6, 6:-6] = np.fromfunction(
+        #     np.vectorize(lambda i, j: int(random.random() < chance)),
+        #     (self.ni - 12, self.nj - 12),
+        #     dtype=np.int
+        # )
 
     def get_value(self, i, j):
         return self.values[i][j]
@@ -219,6 +226,7 @@ def main():
     # кластеризуем карту
     # количество шагов по х и по у для кластеризации
     ni, nj = 10, 10
+    # ni, nj = 20, 20
     # генерация значений 0 или 1 в кластерах
     cluster = RegularCluster(
         ni=ni, nj=nj,
@@ -312,7 +320,8 @@ def main():
 
     # export_to_json(region_total_graph, 'region_total_graph')
     # export_to_json(fat_graph, 'fat_graph')
-    export_to_json(result_graph, 'intersect_graph')
+    # export_to_json(clear_intersect_graph, 'clear_intersect_graph')
+    export_to_json(result_graph, 'result_graph')
     export_clusters_to_json(cluster, xg, yg, 'cluster')
 
 
